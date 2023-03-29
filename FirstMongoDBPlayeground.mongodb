@@ -1,0 +1,136 @@
+// # CREATE DATABASE
+// if database is available then it will switch to the database and if not available then it will create database
+use school;
+use('school');
+
+// to see your current database
+db;
+
+// list all the databases
+show dbs; // it will not display you database if it's not having any collection
+
+// # CREATE COLLECTION
+// generally we can create collection by following command. it will take another parameter call options but not needed
+db.createCollection("students");
+
+// list all the collections
+show collections;
+
+// # INSERT DATA
+// generally in mongodb we don't have any need to create collection. we can generally add any document and collection will get created automatically.
+//insert() and insertOne() both are used to insert a single document into collection
+// insert() is deprecated. we can use insertOne instead.
+db.students.insert({
+    "firstName" : "Rohit",
+    "middleName" : "Prakasbhai",
+    "lastName" : "Lalwani",
+    "contact" : 8320247191,
+    "rollNumber" : 45,
+    "email" : "lalwanirohit111@gmail.com",
+    "hobbies" : ["Cricket", "Badminton"],
+    "address" : {
+        "plotNumber" : 25,
+        "street" : 6,
+        "area" : "Adarsh nagar - 1",
+        "city" : "Junagadh",
+        "pincode" : 362001
+    }
+});
+
+db.students.insertOne({
+    "firstName" : "Ankit",
+    "middleName" : "Mansukhbhai",
+    "lastName" : "Anchevadiya",
+    "contact" : 9638901524,
+    "rollNumber" : 82,
+    "email" : "ankitanchevadiya@gmail.com",
+    "hobbies" : ["Cricket", "Garba"],
+    "address" : {
+        "plotNumber" : 95,
+        "street" : 54,
+        "area" : "Chandlodiya",
+        "city" : "Ahmedabad",
+        "pincode" : 362003
+    }
+});
+
+// we can also add multiple documents in collection at a time
+// insertMany() is used to insert multiple documents into a collections
+db.students.insertMany([
+    {
+        "firstName" : "Sanket",
+        "middleName" : "Manojbhai",
+        "lastName" : "Lalwani",
+        "contact" : 9106966341,
+        "rollNumber" : 07,
+        "email" : "lalwanisanket111@gmail.com",
+        "hobbies" : ["Cricket", "Travelling"],
+        "address" : {
+            "plotNumber" : 110,
+            "street" : 23,
+            "area" : "Vastrapur",
+            "city" : "Ahmedabad",
+            "pincode" : 362003
+        }
+    },
+    {
+        "firstName" : "Harshit",
+        "middleName" : "Hirenbhai",
+        "lastName" : "Lalwani",
+        "contact" : 7990091028,
+        "rollNumber" : 18,
+        "email" : "lalwaniharshit111@gmail.com",
+        "hobbies" : ["Cricket", "GK"],
+        "address" : {
+            "plotNumber" : 2,
+            "street" : 1,
+            "area" : "Gayatrinagar",
+            "city" : "Veraval",
+            "pincode" : 262001
+        }
+    },
+    {
+        "firstName" : "Sumant",
+        "middleName" : "Maheshbhai",
+        "lastName" : "Sukhanandee",
+        "contact" : 9033631496,
+        "rollNumber" : 44,
+        "email" : "sumantsukhanandee@gmail.com",
+        "hobbies" : ["Cricket", "Sleeping"],
+        "address" : {
+            "plotNumber" : 10,
+            "street" : 6,
+            "area" : "Chandlodiya",
+            "city" : "Ahmedabad",
+            "pincode" : 362003
+        }
+    }
+]);
+
+// # FIND DATA
+// There are 2 methods to find and select data from a MongoDB collection, find() and findOne().
+// find() accepts a query object. If left empty, all documents will be returned.
+db.students.find();
+
+// it will return document where rollNumberwill be 45
+db.students.find({rollNumber: 45});
+
+// findOne() accepts a query object. If left empty, it will return the first document it finds.
+db.students.findOne();
+
+// it will return first document where city will be Ahmedabad
+db.students.findOne({"address.city":"Ahmedabad"});
+
+// it will match hobbies. if any document has hobby Badminton then that document will get return
+db.students.findOne({hobbies: "Badminton"});
+
+// it will match exect hobby. if any document has same hobby as ["Cricket", "Badminton"] then only that document will get return.
+// in this the order or sequence of hobby will also important.
+db.students.findOne({hobbies: ["Cricket","Badminton"]});
+
+// # DROP / DELETE DATABASE
+// it will delete the current database in which you are
+db.dropDatabase
+
+// # DROP / DELETE COLLECTION
+db.students.drop();
