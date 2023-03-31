@@ -16,7 +16,7 @@ db.createCollection("students");
 // list all the collections
 show collections;
 
-// # INSERT DATA
+// # INSERT DATA / DOCUMENT
 // generally in mongodb we don't have any need to create collection. we can generally add any document and collection will get created automatically.
 //insert() and insertOne() both are used to insert a single document into collection
 // insert() is deprecated. we can use insertOne instead.
@@ -127,6 +127,45 @@ db.students.findOne({hobbies: "Badminton"});
 // it will match exect hobby. if any document has same hobby as ["Cricket", "Badminton"] then only that document will get return.
 // in this the order or sequence of hobby will also important.
 db.students.findOne({hobbies: ["Cricket","Badminton"]});
+
+// Both find methods accept a second parameter called projection.
+// This parameter is an object that describes which fields to include in the results.
+// pass 0 to exclude the field and 1 to include the field
+// Notice that the _id field is also included. This field is always included unless specifically excluded.
+// NOTE : You cannot use both 0 and 1 in the same object. The only exception is the _id field. You should either specify the fields you would like to include or the fields you would like to exclude.
+
+// it will return all the records with id, firstName and contact field
+db.students.find({}, {firstName: 1, contact: 1});
+
+// it will return all the records without email and contact field
+db.students.find({}, {email: 0, contact: 0});
+
+// it will return all the records with firstName and contact field and without id field
+db.students.find({}, {_id: 0, firstName: 1, email: 1});
+
+// # UPDATE DOCUMENT
+// To update an existing document we can use the updateOne() or updateMany() methods.
+// The first parameter is a query object to define which document or documents should be updated.
+// The second parameter is an object defining the updated data.
+
+// The updateOne() method will update the first document that is found matching the provided query.
+db.students.updateOne({firstName: "Sanket"}, {$set: {lastName: "Popu"}});
+
+// The updateMany() method will update all documents that match the provided query.
+db.students.updateMany({"address.city": "Ahmedabad"}, {$set: {"address.pincode": 320008}});
+
+// it will update all the documents and will add gender for each document
+db.students.updateMany({}, {$set: {gender: "Male"}});
+
+// # DELETE DOCUMENT
+// We can delete documents by using the methods deleteOne() or deleteMany().
+// These methods accept a query object. The matching documents will be deleted.
+
+// The deleteOne() method will delete the first document that matches the query provided.
+db.students.deleteOne({firstName: "Rohit"});
+
+// The deleteMany() method will delete all documents that match the query provided.
+db.students.deleteMany({"address.city": "Ahmedabad"});
 
 // # DROP / DELETE DATABASE
 // it will delete the current database in which you are
